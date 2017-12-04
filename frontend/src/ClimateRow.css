@@ -1,0 +1,57 @@
+.climate-table {
+    border-collapse: collapse;
+}
+
+.climate-table th, td {
+    border: 1px solid black;
+}
+
+.climate-table td {
+    width: 36px;
+    text-align: right;
+    padding: 4px;
+}
+
+.climate-table .comfort-0 {
+    background-color: purple;
+    color: white;
+}
+
+.climate-table .comfort-1 {
+    background-color: blue;
+    color: white;
+}
+
+.climate-table .comfort-2 {
+    background-color: rgb(48, 105, 165);
+    color: white;
+}
+
+.climate-table .comfort-3 {
+    background-color: #70B8CA;
+}
+
+.climate-table .comfort-4 {
+    background-color: lightcyan;
+}
+
+.climate-table .comfort-5 {
+    background-color: lightgreen;
+}
+
+.climate-table .comfort-6 {
+    background-color: green;
+    color: white;
+}
+
+.climate-table .comfort-7 {
+    background-color: #D4EB40;
+}
+
+.climate-table .comfort-8 {
+    background-color: orange;
+}
+
+.climate-table .comfort-9 {
+    background-color: red;
+}
