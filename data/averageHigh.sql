@@ -1,0 +1,8 @@
+CREATE TABLE AverageHigh(
+	Id INT NOT NULL IDENTITY PRIMARY KEY,
+	StationId INT NOT NULL REFERENCES Stations(Id),
+	OriginalDate FLOAT NOT NULL,
+	Year INT NOT NULL,
+	Month INT NOT NULL,
+	Temperature FLOAT NOT NULL
+)
