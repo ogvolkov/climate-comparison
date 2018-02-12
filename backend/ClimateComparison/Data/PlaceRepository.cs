@@ -18,20 +18,15 @@ namespace ClimateComparison.Data
             using (var connection = _sqlConnectionProvider.Get())
             {
                 return connection.Query<Place>(@"
-                    SELECT TOP(@MaxCount) Id, Name, Country
-                    FROM Sites S
+                    SELECT TOP(@MaxCount) Id, Name, CountryCode AS Country
+                    FROM Cities
                     WHERE Name LIKE @SearchPattern
-                    AND EXISTS(
-                        SELECT AH.Id FROM AverageHigh AH
-                        WHERE AH.SiteId = S.Id
-                        AND Year BETWEEN YEAR(getdate()) - @AverageYears AND YEAR(getdate())-1
-                    )
+                    ORDER BY Population DESC
                     ",
                     new
                     {
                         MaxCount = maxCount,
                         SearchPattern = searchText + "%",
-                        AverageYears = 10
                     }
                 );
             }

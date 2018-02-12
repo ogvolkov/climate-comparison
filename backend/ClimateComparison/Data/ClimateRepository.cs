@@ -19,9 +19,20 @@ namespace ClimateComparison.Data
             using (var connection = _sqlConnectionProvider.Get())
             {
                 var averageHigh = connection.Query<double>(@"
-                    SELECT ROUND(AVG(Temperature), 1)
-                    FROM AverageHigh
-                    WHERE SiteId = @Id
+                    DECLARE @g geography = (SELECT TOP(1) Location FROM Cities WHERE Id = @Id)
+
+                    DECLARE @NearestStations TABLE(Id INT, Name NVARCHAR(255), Distance FLOAT, Weight FLOAT)
+                    
+                    INSERT INTO @NearestStations
+                    SELECT TOP(7) Id, Name, Location.STDistance(@g), POWER(Location.STDistance(@g), -2)
+                    FROM Stations
+                    WHERE Location.STDistance(@g) IS NOT NULL  
+                    ORDER BY Location.STDistance(@g);
+                    
+                    SELECT ROUND(SUM(S.Weight * AH.Temperature) / SUM(S.Weight), 1)
+                    FROM AverageHigh AH
+                    INNER JOIN @NearestStations S
+                    ON AH.StationId = S.Id
                     AND Year > YEAR(getdate()) - @AverageYears
                     AND Year < YEAR(getdate())
                     GROUP BY Month
