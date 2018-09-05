@@ -22,6 +22,10 @@ dotnet run --project cities\import-cities\import-cities <path to cities1000.txt>
 dotnet run --project stations\import-stations\import-stations <path to site_detail.txt> <sql server connection string>
 dotnet run --project tmax\import-tmax\import-tmax <path to data.txt> <sql server connection string>
 ```
+## Running everything
+```
+run.cmd
+```
 
 ## Running backend
 Have a connection string somehow in client secrets.

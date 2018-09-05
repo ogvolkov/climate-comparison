@@ -26,7 +26,7 @@ namespace ClimateComparison.Data
                     INSERT INTO @NearestStations
                     SELECT TOP(7) Id, Name, Location.STDistance(@g), POWER(Location.STDistance(@g), -2)
                     FROM Stations
-                    WHERE Location.STDistance(@g) IS NOT NULL  
+                    WHERE Location.STDistance(@g) IS NOT NULL AND Location.STDistance(@g) < 50000    
                     ORDER BY Location.STDistance(@g);
                     
                     SELECT ROUND(SUM(S.Weight * AH.Temperature) / SUM(S.Weight), 1)
