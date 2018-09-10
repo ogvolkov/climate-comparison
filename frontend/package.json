@@ -9,10 +9,13 @@
     "react-scripts": "^1.1.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd ./development.env react-scripts start",
+    "build": "env-cmd ./production.env react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:51067/"
+  "proxy": "http://localhost:51067/",
+  "devDependencies": {
+    "env-cmd": "^8.0.2"
+  }
 }

@@ -1,6 +1,6 @@
 class ClimateService {
     static getClimate(placeId) {
-        return fetch('/api/climate/' + placeId, { headers: { accept: 'application/json' } });
+        return fetch(`${process.env.REACT_APP_API_URL}/climate/${placeId}`, { headers: { accept: 'application/json' } });
     }
 }
 
