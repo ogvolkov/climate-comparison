@@ -27,8 +27,6 @@ namespace ClimateComparison
         {
             services.AddMvc();
 
-            services.Configure<DatabaseOptions>(Configuration);
-
             services.AddSingleton<PlaceRepository>();
             services.AddSingleton<ClimateRepository>();
             services.AddSingleton<SqlConnectionProvider>();

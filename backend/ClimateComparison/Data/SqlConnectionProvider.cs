@@ -1,21 +1,21 @@
 ﻿using System;
-using Microsoft.Extensions.Options;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace ClimateComparison.Data
 {
     public class SqlConnectionProvider
     {
-        private readonly IOptions<DatabaseOptions> _databaseOptions;
+        private readonly IConfiguration _configuration;
 
-        public SqlConnectionProvider(IOptions<DatabaseOptions> databaseOptions)
+        public SqlConnectionProvider(IConfiguration configuration)
         {
-            _databaseOptions = databaseOptions ?? throw new System.ArgumentNullException(nameof(databaseOptions));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public SqlConnection Get()
         {
-            string connectionString = _databaseOptions.Value.ConnectionString;
+            string connectionString = _configuration.GetConnectionString("ConnectionString");
 
             if (string.IsNullOrWhiteSpace(connectionString))
             {
