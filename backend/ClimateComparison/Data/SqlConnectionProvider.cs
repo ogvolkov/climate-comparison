@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System;
+using Microsoft.Extensions.Options;
 using System.Data.SqlClient;
 
 namespace ClimateComparison.Data
@@ -14,7 +15,14 @@ namespace ClimateComparison.Data
 
         public SqlConnection Get()
         {
-            return new SqlConnection(_databaseOptions.Value.ConnectionString);
+            string connectionString = _databaseOptions.Value.ConnectionString;
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException("Connection string is not present");
+            }
+
+            return new SqlConnection(connectionString);
         }
     }
 }
