@@ -20,8 +20,10 @@ namespace ClimateComparison.Data
                 return connection.Query<Place>(@"
                     SELECT TOP(@MaxCount) Id, Name, CountryCode AS Country
                     FROM Cities
-                    WHERE Name LIKE @SearchPattern
+                    WHERE Id IN
+	                    (SELECT DISTINCT CN.CityId FROM CityNames CN WHERE CN.Name LIKE @SearchPattern)
                     ORDER BY Population DESC
+                    OPTION (LOOP JOIN)
                     ",
                     new
                     {
