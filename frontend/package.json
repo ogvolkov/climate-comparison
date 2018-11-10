@@ -6,7 +6,7 @@
     "react": "^15.6.2",
     "react-autosuggest": "^9.3.2",
     "react-dom": "^15.6.2",
-    "react-scripts": "^1.1.5"
+    "react-scripts": "2.1.1"
   },
   "scripts": {
     "start": "env-cmd ./development.env react-scripts start",
@@ -17,5 +17,11 @@
   "proxy": "http://localhost:51067/",
   "devDependencies": {
     "env-cmd": "^8.0.2"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
