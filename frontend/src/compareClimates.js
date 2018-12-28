@@ -1,13 +1,13 @@
 
 import _ from 'lodash';
-import getComfortLevel from './comfortLevel';
+import { getTemperatureComfortLevel } from './comfortLevel';
 
 function compareClimates(climate1, climate2) {
     const averageHighs1 = _.orderBy(climate1.averageHighs);
     const averageHighs2 = _.orderBy(climate2.averageHighs);
 
     const differences = _.zipWith(averageHighs1, averageHighs2,
-        (t1, t2) => getComfortLevel(t2) - getComfortLevel(t1)
+        (t1, t2) => getTemperatureComfortLevel(t2) - getTemperatureComfortLevel(t1)
     );
 
     const warmer = _.filter(differences, it => it > 0);

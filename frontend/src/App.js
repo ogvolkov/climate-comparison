@@ -57,7 +57,7 @@ class App extends Component {
 
               {
                 data.climate &&
-                <ClimateRow averageHighs={data.climate.averageHighs}/>
+                <ClimateRow averageHighs={data.climate.averageHighs} precipitation={data.climate.precipitation}/>
               }
             </div>
           )

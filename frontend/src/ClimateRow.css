@@ -55,3 +55,54 @@
 .climate-table .comfort-9 {
     background-color: red;
 }
+
+.climate-table .precipitation-0 {
+    background-color: #ffd987;
+}
+
+.climate-table .precipitation-1 {
+    background-color: #fbffd1;
+}
+
+.climate-table .precipitation-2 {
+    background-color: #e9feff;
+}
+
+.climate-table .precipitation-3 {
+    background-color: #c6d2e3;
+}
+
+.climate-table .precipitation-4 {
+    color: white;
+    background-color: #4d81b5;
+}
+
+.climate-table .precipitation-5 {
+    color: white;
+    background-color: blue;
+}
+
+.climate-table .precipitation-6 {
+    color: white;
+    background-color: navy;
+}
+
+.climate-table .precipitation-7 {
+    color: white;
+    background-color: olive;
+}
+
+.climate-table .precipitation-8 {
+    color: white;
+    background-color: magenta;
+}
+
+.climate-table .precipitation-9 {
+    color: white;
+    background-color: purple;
+}
+
+.climate-table .precipitation-10 {
+    color: white;
+    background-color: maroon;
+}

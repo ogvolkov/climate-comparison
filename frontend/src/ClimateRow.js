@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import './ClimateRow.css';
-import getComfortLevel from './comfortLevel';
+
+import { getTemperatureComfortLevel, getPrecipitationComfortLevel } from './comfortLevel';
 
 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 class ClimateRow extends Component {
     makeTemperatureCell(temperature, index) {
-        const comfortLevel = getComfortLevel(temperature);
+        const comfortLevel = getTemperatureComfortLevel(temperature);
         return <td key={index} className={'comfort-' + comfortLevel}>{temperature.toFixed(1)}</td>;
+    }
+
+    makePrecipitationCell(precipitation, index) {
+        const comfortLevel = getPrecipitationComfortLevel(precipitation);
+        return <td key={index} className={'precipitation-' + comfortLevel}>{precipitation.toFixed(1)}</td>;
     }
     
     render() {
@@ -24,6 +30,10 @@ class ClimateRow extends Component {
                         <tr>
                             <td>Average high</td>
                             {this.props.averageHighs.map(this.makeTemperatureCell)}
+                        </tr>
+                        <tr>
+                            <td>Precipitation</td>
+                            {this.props.precipitation.map(this.makePrecipitationCell)}
                         </tr>
                     </tbody>
                 </table>
