@@ -18,7 +18,7 @@ namespace ClimateComparison.Data
         {
             using (var connection = _sqlConnectionProvider.Get())
             {
-                var averageHigh = connection.Query<double>(@"
+                var climate = connection.QueryMultiple(@"
                     DECLARE @g geography = (SELECT TOP(1) Location FROM Cities WHERE Id = @Id)
 
                     DECLARE @NearestStations TABLE(Id INT, Name NVARCHAR(255), Distance FLOAT, Weight FLOAT)
@@ -37,17 +37,28 @@ namespace ClimateComparison.Data
                     AND Year < YEAR(getdate())
                     GROUP BY Month
                     ORDER BY Month
+
+                    SELECT ROUND(
+		                    SUM(Precipitation * POWER(Location.STDistance(@g), -2))
+		                    / SUM(POWER(Location.STDistance(@g), -2)), 1)
+                    FROM Precipitation
+                    WHERE Year > YEAR(getdate()) - 5
+                    AND Year < YEAR(getdate())
+                    AND Location.STDistance(@g) IS NOT NULL AND Location.STDistance(@g) < 50000
+                    GROUP BY Month
+                    ORDER BY Month
                     ",
                     new
                     {
                         Id = placeId,
                         AverageYears = 10
                     }
-                ).ToArray();
+                );
 
                 return new Climate
                 {
-                    AverageHighs = averageHigh
+                    AverageHighs = climate.Read<double>().ToArray(),
+                    Precipitation = climate.Read<double>().ToArray()
                 };
             }
         }
