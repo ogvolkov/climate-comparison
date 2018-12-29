@@ -53,11 +53,6 @@ class App extends Component {
               <PlacePicker onPlaceSelected = { place => this.onPlaceSelected(index, place) } caption = {`Place ${index+1}`}/>
 
               {
-                data.place &&
-                <h2>{data.place.name + ', ' + data.place.country}</h2>
-              }
-
-              {
                 data.climate &&
                 <ClimateRow averageHighs={data.climate.averageHighs} precipitation={data.climate.precipitation}/>
               }

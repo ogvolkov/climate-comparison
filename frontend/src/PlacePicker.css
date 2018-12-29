@@ -7,11 +7,11 @@
   }
   
   .react-autosuggest__input {
-    width: 450px;
+    width: 300px;
     padding: 8px 10px;
     font-family: Helvetica, sans-serif;
-    font-weight: 300;
-    font-size: 14px;
+    font-weight: bold;
+    font-size: 16px;
     border: 1px solid #aaa;
   }
   
@@ -32,7 +32,7 @@
     display: block;
     position: absolute;
     padding: 8px 10px;
-    width: 450px;
+    width: 300px;
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
