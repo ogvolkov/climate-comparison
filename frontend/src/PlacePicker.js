@@ -53,14 +53,13 @@ class PlacePicker extends Component {
         const { value, suggestions } = this.state;
 
         const inputProps = {
-            placeholder: 'place',
+            placeholder: this.props.caption,
             value,
             onChange: this.onChange
         };
 
         return (
             <div className='place-picker-container'>
-                <label>Select a place</label>
                 <Autosuggest
                     suggestions = {suggestions}
                     onSuggestionsFetchRequested = {this.onSuggestionsFetchRequested}

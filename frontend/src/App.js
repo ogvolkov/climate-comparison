@@ -45,10 +45,12 @@ class App extends Component {
 
     return (
       <div>
+        <p>Compare climates of two places on Earth easily.</p>
+        <p>Just type in their names in any language you like and see suggestions.</p>
         {
           this.state.climates.map((data, index) =>
             <div key = {index} className='climate-container'>
-              <PlacePicker onPlaceSelected = { place => this.onPlaceSelected(index, place) }/>
+              <PlacePicker onPlaceSelected = { place => this.onPlaceSelected(index, place) } caption = {`Place ${index+1}`}/>
 
               {
                 data.place &&
