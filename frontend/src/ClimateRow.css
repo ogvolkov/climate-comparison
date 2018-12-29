@@ -12,6 +12,11 @@
     padding: 4px;
 }
 
+.climate-table td.row-header {
+    width: 120px;
+    text-align: center;
+}
+
 .climate-table .comfort-0 {
     background-color: purple;
     color: white;
