@@ -40,7 +40,7 @@ class PlacePicker extends Component {
 
     onSuggestionSelected = (event, data) => this.props.onPlaceSelected(data.suggestion);
 
-    getSuggestionValue = suggestion => '';
+    getSuggestionValue = suggestion => `${suggestion.name}, ${suggestion.country}`;
     
     renderSuggestion = suggestion => (
         <div>
