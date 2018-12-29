@@ -13,14 +13,18 @@ class PlacePicker extends Component {
             value: '',
             suggestions: []
         };
+
+        this.lastRequestId = 0;
     }
 
     onChange = (event, { newValue }) => this.setState({ value: newValue });
 
     fetchSuggestions = (value) => {
+        const requestId = ++this.lastRequestId;
+
         PlaceService.findPlaces(value)
             .then(response => {
-                if (response.ok) {
+                if (response.ok && this.lastRequestId === requestId) {
                     response.json().then(
                         data => this.setState({ suggestions: data })
                     );
