@@ -36,6 +36,13 @@ class App extends Component {
           )
         }
         <span>{this.state.climates[1].compareTo(this.state.climates[0])}</span>
+
+        <div className='attribution'>
+          <p>Temperature data by <a href='http://berkeleyearth.org/'>Berkeley Earth</a>.</p>
+          <p>Precipitation data by <a href='http://www.cru.uea.ac.uk/'>Climatic Research Unit, University of East Anglia</a>.</p>
+          <p>Cities data by <a href='https://www.geonames.org/'>GeoNames</a>.</p>
+          <p>Source code by <a href='https://github.com/ogvolkov/climate-comparison'>Oleg Volkov</a></p>
+        </div>
       </div>
     );
   }

@@ -8,3 +8,9 @@ body {
   margin-top: 16px;
   margin-bottom: 24px;
 }
+
+.attribution {
+  position: absolute;
+  bottom: 0px;
+  font-size: 12px;
+}
