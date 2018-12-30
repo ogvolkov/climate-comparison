@@ -14,11 +14,16 @@ namespace ClimateComparison.Controllers
             _climateRepository = climateRepository ?? throw new System.ArgumentNullException(nameof(climateRepository));
         }
 
-        // GET api/climate/{placeId}
-        [HttpGet("{placeId}")]
-        public Climate Get(int placeId)
+        [HttpGet("temperature/{placeId}")]
+        public Temperature Temperature(int placeId)
         {
-            return _climateRepository.Get(placeId);
+            return _climateRepository.GetTemperature(placeId);
+        }
+
+        [HttpGet("precipitation/{placeId}")]
+        public Precipitation Precipitation(int placeId)
+        {
+            return _climateRepository.GetPrecipitation(placeId);
         }
     }
 }
