@@ -27,14 +27,20 @@ class ClimateRow extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="row-header">Average high temperature, °C</td>
-                            {this.props.averageHighs.map(this.makeTemperatureCell)}
-                        </tr>
-                        <tr>
-                            <td className="row-header">Precipitation, mm</td>
-                            {this.props.precipitation.map(this.makePrecipitationCell)}
-                        </tr>
+                        {
+                            this.props.climate.temperature &&
+                            <tr>
+                                <td className="row-header">Average high temperature, °C</td>
+                                {this.props.climate.temperature.monthlyAverageHighs.map(this.makeTemperatureCell)}
+                            </tr>
+                        }
+                        {
+                            this.props.climate.precipitation &&
+                            <tr>
+                                <td className="row-header">Precipitation, mm</td>
+                                {this.props.climate.precipitation.monthlyAverages.map(this.makePrecipitationCell)}
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

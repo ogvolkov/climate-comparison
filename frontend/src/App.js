@@ -1,48 +1,28 @@
 import React, { Component } from 'react';
 import PlacePicker from './PlacePicker';
+import Climate from './Climate';
 import ClimateRow from './ClimateRow';
-import ClimateService from './Api/ClimateService';
-import compareClimates from './compareClimates';
 
 class App extends Component {
   constructor() {
     super();
 
-    const noPlaceSelected = { place: null, climate: null};
-    this.state = { climates: [noPlaceSelected, noPlaceSelected] };
+    this.state = { climates: [this.newClimate(), this.newClimate()] };
   }
 
-  replaceClimate(atIndex, climate) {
-    let newClimates = this.state.climates.map((item, index) =>
-      (index === atIndex) ? {place: item.place, climate: climate }: item
-    );
-    this.setState({ climates: newClimates });
+  newClimate() {
+    return new Climate(() => this.onClimateChanged());
   }
 
-  loadClimate(atIndex, place) {
-    ClimateService.getClimate(place.id)
-      .then(response => {
-          if (response.ok) {
-              response.json().then(
-                climate => this.replaceClimate(atIndex, climate)
-              );
-          };
-      });
+  onClimateChanged() {
+    this.setState(this.state);
   }
 
-  onPlaceSelected = (atIndex, place) => {
-    let newClimates = this.state.climates.map((item, index) =>
-      (index === atIndex) ? { place: place, climate: null }: item
-    );
-    this.setState({ climates: newClimates });
-
-    this.loadClimate(atIndex, place);
+  onPlaceSelected(atIndex, place) {
+    this.state.climates[atIndex].setPlace(place);
   };
 
   render() {
-    const climate1 = this.state.climates[0];
-    const climate2 = this.state.climates[1];
-
     return (
       <div>
         <p>Compare climates of two places on Earth easily.</p>
@@ -51,18 +31,11 @@ class App extends Component {
           this.state.climates.map((data, index) =>
             <div key = {index} className='climate-container'>
               <PlacePicker onPlaceSelected = { place => this.onPlaceSelected(index, place) } caption = {`Place ${index+1}`}/>
-
-              {
-                data.climate &&
-                <ClimateRow averageHighs={data.climate.averageHighs} precipitation={data.climate.precipitation}/>
-              }
+              { data.hasData() && <ClimateRow climate={data}/> }
             </div>
           )
         }
-        {
-          climate1.place && climate1.climate && climate2.place && climate2.climate &&
-          <span>Climate at {climate2.place.name} is {compareClimates(climate1.climate, climate2.climate)} compared to {climate1.place.name}</span>
-        }
+        <span>{this.state.climates[1].compareTo(this.state.climates[0])}</span>
       </div>
     );
   }
