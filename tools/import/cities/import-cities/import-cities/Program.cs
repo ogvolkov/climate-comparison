@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +12,13 @@ namespace ClimateComparison.Import.Cities
     {
         static async Task Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please supply cities file path");
+                Environment.ExitCode = 1;
+                return;
+            }
+
             string fileName = args[0];
 
             using (var streamReader = new StreamReader(fileName))
@@ -22,7 +28,7 @@ namespace ClimateComparison.Import.Cities
                 var tableClient = storageAccount.CreateCloudTableClient();
                 var placesTable = tableClient.GetTableReference("places");
 
-                for (; ;)
+                for (; ; )
                 {
                     string line = streamReader.ReadLine();
                     if (line == null)
@@ -42,7 +48,12 @@ namespace ClimateComparison.Import.Cities
 
                     bool insertedRows = false;
 
-                    var tasks = GetAltNames(altNamesString).Select(async altName =>
+                    var allNames = altNamesString.Split(",").Union(new[] { name })
+                        .Select(SanitizeName)
+                        .Where(it => !string.IsNullOrWhiteSpace(it))
+                        .Distinct();
+
+                    var tasks = allNames.Select(async altName =>
                     {
                         var placeEntity = new PlaceEntity
                         {
@@ -90,14 +101,6 @@ namespace ClimateComparison.Import.Cities
             }
 
             Console.WriteLine("Done");
-        }
-
-        private static IEnumerable<string> GetAltNames(string altNamesString)
-        {
-            return altNamesString.Split(",")
-                .Select(SanitizeName)
-                .Where(name => !string.IsNullOrWhiteSpace(name))
-                .Distinct();
         }
 
         private static string SanitizeName(string altName)
