@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using ClimateComparison.DataAccess.Infra;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,12 +13,7 @@ namespace ClimateComparison
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
-
+            builder.AddEnvironmentVariables("CLIMATE_COMPARISON_");
             Configuration = builder.Build();
         }
 
@@ -32,6 +28,7 @@ namespace ClimateComparison
             services.AddSingleton<PlaceRepository>();
             services.AddSingleton<ClimateRepository>();
             services.AddSingleton<SqlConnectionProvider>();
+            services.AddSingleton<CloudTableClientProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

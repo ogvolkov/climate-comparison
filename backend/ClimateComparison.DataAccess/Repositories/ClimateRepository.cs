@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ClimateComparison.DataAccess.DTO;
+using ClimateComparison.DataAccess.Infra;
 using Dapper;
 
 namespace ClimateComparison.DataAccess.Repositories

@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using ClimateComparison.DataAccess.Infra;
 using ClimateComparison.DataAccess.Repositories;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -15,9 +17,9 @@ namespace ClimateComparison.IntegrationTests
         public void OneTimeSetup()
         {
             var builder = new ConfigurationBuilder();
-            builder.AddEnvironmentVariables("CLIMATE_");
+            builder.AddEnvironmentVariables("CLIMATE_COMPARISON_");
             var configuration = builder.Build();
-            var connectionProvider = new SqlConnectionProvider(configuration);
+            var connectionProvider = new CloudTableClientProvider(configuration);
             _placeRepository = new PlaceRepository(connectionProvider);
         }
 
@@ -150,6 +152,15 @@ namespace ClimateComparison.IntegrationTests
 
             // assert
             Assert.That(elapsedMs, Is.LessThanOrEqualTo(500));
+        }
+
+        [TestCase("Am")]
+        [TestCase("A")]
+        [TestCase("")]
+        public void ThrowsIfSearchStringIsTooShort(string searchText)
+        {
+            // act + assert
+            Assert.Throws<ArgumentException>(() => _placeRepository.Find(searchText, 10));
         }
     }
 }
