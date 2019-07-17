@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace ClimateComparison.Data
+namespace ClimateComparison.DataAccess.Repositories
 {
     public class SqlConnectionProvider
     {

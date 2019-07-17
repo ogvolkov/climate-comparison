@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using ClimateComparison.Models;
-using ClimateComparison.Data;
+using ClimateComparison.DataAccess.DTO;
+using ClimateComparison.DataAccess.Repositories;
 
 namespace ClimateComparison.Controllers
 {

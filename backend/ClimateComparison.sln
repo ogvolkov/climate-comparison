@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateComparison", "ClimateComparison\ClimateComparison.csproj", "{B83EDE1C-0D67-4B18-B7B7-27F7EC10E5F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimateComparison.IntegrationTests", "ClimateComparison.IntegrationTests\ClimateComparison.IntegrationTests.csproj", "{1DFE2572-E7F3-48FA-B554-E57E70226CF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateComparison.IntegrationTests", "ClimateComparison.IntegrationTests\ClimateComparison.IntegrationTests.csproj", "{1DFE2572-E7F3-48FA-B554-E57E70226CF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimateComparison.DataAccess", "ClimateComparison.DataAccess\ClimateComparison.DataAccess.csproj", "{7E31A2AE-D61D-414C-988A-AF44CDFF020E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1DFE2572-E7F3-48FA-B554-E57E70226CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DFE2572-E7F3-48FA-B554-E57E70226CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DFE2572-E7F3-48FA-B554-E57E70226CF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E31A2AE-D61D-414C-988A-AF44CDFF020E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E31A2AE-D61D-414C-988A-AF44CDFF020E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E31A2AE-D61D-414C-988A-AF44CDFF020E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E31A2AE-D61D-414C-988A-AF44CDFF020E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,8 @@
-﻿using ClimateComparison.Models;
+﻿using System.Collections.Generic;
+using ClimateComparison.DataAccess.DTO;
 using Dapper;
-using System.Collections.Generic;
 
-namespace ClimateComparison.Data
+namespace ClimateComparison.DataAccess.Repositories
 {
     public class PlaceRepository
     {

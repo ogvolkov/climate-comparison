@@ -1,5 +1,5 @@
-﻿using ClimateComparison.Data;
-using ClimateComparison.Models;
+﻿using ClimateComparison.DataAccess.DTO;
+using ClimateComparison.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClimateComparison.Controllers
