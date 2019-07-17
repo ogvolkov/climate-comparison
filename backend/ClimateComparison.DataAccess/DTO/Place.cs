@@ -1,5 +1,5 @@
 ﻿
-namespace ClimateComparison.Models
+namespace ClimateComparison.DataAccess.DTO
 {
     public class Place
     {

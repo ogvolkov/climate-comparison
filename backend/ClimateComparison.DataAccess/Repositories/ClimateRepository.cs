@@ -1,9 +1,8 @@
-﻿
-using ClimateComparison.Models;
+﻿using System.Linq;
+using ClimateComparison.DataAccess.DTO;
 using Dapper;
-using System.Linq;
 
-namespace ClimateComparison.Data
+namespace ClimateComparison.DataAccess.Repositories
 {
     public class ClimateRepository
     {

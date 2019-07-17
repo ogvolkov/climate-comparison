@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using ClimateComparison.Data;
+using ClimateComparison.DataAccess.Repositories;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
@@ -62,7 +62,6 @@ namespace ClimateComparison.IntegrationTests
             Assert.That(results, Is.Not.Empty);
             Assert.That(results.First().Name, Is.EqualTo("Chicago"));
         }
-
 
         [Test]
         public void SelectsMostRelevantPlace()
