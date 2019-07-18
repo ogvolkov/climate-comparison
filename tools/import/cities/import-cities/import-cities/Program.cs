@@ -25,7 +25,7 @@ namespace ClimateComparison.Import.Cities
             {
                 string storageConnectionString = Environment.GetEnvironmentVariable("CLIMATE_COMPARISON_STORAGE_ACCOUNT");
                 var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-                var tableClient = storageAccount.CreateCloudTableClient();
+                var tableClient = storageAccount.CreateCloudTableClient();  
                 var placesTable = tableClient.GetTableReference("places");
 
                 for (; ; )
@@ -50,6 +50,7 @@ namespace ClimateComparison.Import.Cities
 
                     var allNames = altNamesString.Split(",").Union(new[] { name })
                         .Select(SanitizeName)
+                        .Select(it => it.ToLowerInvariant())
                         .Where(it => !string.IsNullOrWhiteSpace(it))
                         .Distinct();
 

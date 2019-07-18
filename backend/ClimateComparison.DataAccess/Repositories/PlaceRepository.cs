@@ -34,14 +34,15 @@ namespace ClimateComparison.DataAccess.Repositories
                 throw new ArgumentException("Search string is too short", nameof(searchText));
             }
 
+            var searchTextLower = searchText.ToLowerInvariant();
             var placesTable = _cloudTableClientProvider.Get().GetTableReference("places");
 
-            var length = searchText.Length - 1;
-            var nextChar = searchText[length] + 1;
+            var length = searchTextLower.Length - 1;
+            var nextChar = searchTextLower[length] + 1;
 
-            var startWithEnd = searchText.Substring(0, length) + (char)nextChar;
+            var startWithEnd = searchTextLower.Substring(0, length) + (char)nextChar;
             var filter = TableQuery.CombineFilters(
-                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.GreaterThanOrEqual, searchText),
+                TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.GreaterThanOrEqual, searchTextLower),
                 TableOperators.And,
                 TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.LessThan, startWithEnd)
             );
