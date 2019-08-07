@@ -49,7 +49,17 @@ namespace Migrate.AvgHigh.TableStorage
 
                     foreach (int id in placeIds)
                     {
-                        var averageHighs = GetAverageHighs(id, sqlConnection).ToArray();
+                        double[] averageHighs;
+                        try
+                        {
+                            averageHighs = GetAverageHighs(id, sqlConnection).ToArray();
+                        }
+                        catch (SqlException sqlException) when (sqlException.ErrorCode == -2146232060)
+                        {
+                            Console.WriteLine($"can't get climate for {id}");
+                            Console.WriteLine(sqlException);
+                            continue;
+                        }
 
                         await averageHighRepository.Save(id, averageHighs);
 
