@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace ClimateComparison
 {
@@ -12,6 +13,7 @@ namespace ClimateComparison
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) => config.AddEnvironmentVariables("CLIMATE_COMPARISON_"))
                 .UseStartup<Startup>();
     }
 }
