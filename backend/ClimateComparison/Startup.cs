@@ -17,7 +17,6 @@ namespace ClimateComparison
 
             services.AddSingleton<PlaceRepository>();
             services.AddSingleton<ClimateRepository>();
-            services.AddSingleton<SqlConnectionProvider>();
             services.AddSingleton<CloudTableClientProvider>();
         }
 

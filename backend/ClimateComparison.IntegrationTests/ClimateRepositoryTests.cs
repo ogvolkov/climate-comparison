@@ -22,7 +22,7 @@ namespace ClimateComparison.IntegrationTests
 
             var connectionProvider = new CloudTableClientProvider(configuration);
 
-            _climateRepository = new ClimateRepository(new SqlConnectionProvider(configuration), connectionProvider);
+            _climateRepository = new ClimateRepository(connectionProvider);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void TakesReasonableTime()
+        public void AverageHighsTakeReasonableTime()
         {
             // arrange
             int placeId = 66728;
@@ -54,6 +54,41 @@ namespace ClimateComparison.IntegrationTests
             // act
             stopwatch.Start();
             _climateRepository.GetTemperature(placeId);
+            var elapsedMs = stopwatch.ElapsedMilliseconds;
+
+            // assert
+            Assert.That(elapsedMs, Is.LessThanOrEqualTo(500));
+        }
+
+        [Test]
+        public void RetrievesPrecipitation()
+        {
+            // arrange
+            int placeId = 105989;
+
+            // act
+            var precipitation = _climateRepository.GetPrecipitation(placeId);
+
+            // assert
+            Assert.That(precipitation.MonthlyAverages, Is.Not.Null);
+            Assert.That(precipitation.MonthlyAverages, Is.Not.Null);
+            Assert.That(precipitation.MonthlyAverages.Length, Is.EqualTo(12));
+
+            Assert.That(precipitation.MonthlyAverages.All(t => t >= 0 && t < 400), Is.True);
+
+            Console.WriteLine(string.Join(' ', precipitation.MonthlyAverages));
+        }
+
+        [Test]
+        public void PrecipitationTakesReasonableTime()
+        {
+            // arrange
+            int placeId = 66728;
+            var stopwatch = new Stopwatch();
+
+            // act
+            stopwatch.Start();
+            _climateRepository.GetPrecipitation(placeId);
             var elapsedMs = stopwatch.ElapsedMilliseconds;
 
             // assert
