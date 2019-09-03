@@ -15,10 +15,23 @@ variables:
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration) ./backend/ClimateComparison.sln
-  displayName: 'dotnet build $(buildConfiguration)'
-  
-- script: dotnet publish --output $(Build.ArtifactStagingDirectory)/backend ./backend/ClimateComparison.sln
+  displayName: 'dotnet build'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)/backend
+- script: dotnet publish --output $(Build.ArtifactStagingDirectory)/backend ./backend/ClimateComparison.sln
+  displayName: 'dotnet publish'
+
+- publish: $(Build.ArtifactStagingDirectory)/backend
+  artifact: backend
+  displayName: 'publish backend'
+
+- script: npm install
+  workingDirectory: frontend
+  displayName: 'npm install'
+  
+- script: npm run build
+  workingDirectory: frontend
+  displayName: 'npm build'
+
+- publish: frontend/build
+  artifact: frontend
+  displayName: 'publish frontend'
