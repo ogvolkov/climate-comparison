@@ -17,6 +17,8 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration) ./backend/ClimateComparison.sln
   displayName: 'dotnet build $(buildConfiguration)'
   
-- script: dotnet publish --output $(Build.ArtifactStagingDirectory) ./backend/ClimateComparison.sln
+- script: dotnet publish --output $(Build.ArtifactStagingDirectory)/backend ./backend/ClimateComparison.sln
 
 - task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)/backend
