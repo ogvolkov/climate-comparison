@@ -53,7 +53,17 @@ namespace ClimateComparison.DataAccess.Repositories
 
             TableQuerySegment<PlaceEntity> resultsSegment = placesTable.ExecuteQuerySegmentedAsync(query, null).GetAwaiter().GetResult();
 
-            var results = resultsSegment.OrderByDescending(it => it.Population).Take(maxCount);
+            var results = resultsSegment
+                .GroupBy(p => new
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Population = p.Population,
+                    CountryCode = p.CountryCode
+                })
+                .Select(g => g.Key)
+                .OrderByDescending(it => it.Population)
+                .Take(maxCount);
 
             return results.Select(it => new Place
             {

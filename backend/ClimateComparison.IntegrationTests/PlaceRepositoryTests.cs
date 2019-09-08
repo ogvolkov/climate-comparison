@@ -28,7 +28,7 @@ namespace ClimateComparison.IntegrationTests
         {
             // arrange
             string searchText = "Utr";
-            
+
             // act
             var results = _placeRepository.Find(searchText, 10).ToList();
 
@@ -133,7 +133,7 @@ namespace ClimateComparison.IntegrationTests
 
             // act
             var results = _placeRepository.Find(searchText, 10).ToList();
-        
+
             // assert
             Assert.That(results, Is.Empty);
         }
@@ -161,6 +161,20 @@ namespace ClimateComparison.IntegrationTests
         {
             // act + assert
             Assert.Throws<ArgumentException>(() => _placeRepository.Find(searchText, 10));
+        }
+
+        [Test]
+        public void DoesNotReturnFullDuplicates()
+        {
+            // arrange
+            string searchText = "Amers";
+
+            // act
+            var results = _placeRepository.Find(searchText, 10).ToList();
+
+            // assert
+            var duplicates = results.GroupBy(it => new { it.Id }).Where(g => g.Count() > 1).Select(g => g.Key);
+            Assert.That(duplicates, Is.Empty);
         }
     }
 }
