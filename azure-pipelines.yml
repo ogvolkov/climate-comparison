@@ -12,6 +12,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  REACT_APP_API_URL: https://climate-comparison-beta.azurewebsites.net/api # TODO change per branch
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration) ./backend/ClimateComparison.sln
