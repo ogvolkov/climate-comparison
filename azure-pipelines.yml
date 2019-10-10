@@ -1,8 +1,3 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - master
 - feature/*
@@ -12,9 +7,16 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  REACT_APP_API_URL: https://climate-comparison-beta.azurewebsites.net/api # TODO change per branch
 
 steps:
+- bash: |
+    echo "##vso[task.setvariable variable=REACT_APP_API_URL]${PROD_API_URL}"
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+
+- bash: |
+    echo "##vso[task.setvariable variable=REACT_APP_API_URL]${BETA_API_URL}"
+  condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+  
 - script: dotnet build --configuration $(buildConfiguration) ./backend/ClimateComparison.sln
   displayName: 'dotnet build'
 
