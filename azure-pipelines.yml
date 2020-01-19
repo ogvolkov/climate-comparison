@@ -7,6 +7,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  StorageAccount: 'climatev2test'
 
 steps:
 - bash: |
@@ -35,6 +36,11 @@ steps:
   workingDirectory: frontend
   displayName: 'npm build'
 
-- publish: frontend/build
-  artifact: frontend
-  displayName: 'publish frontend'
+- task: AzureCLI@2
+  displayName: Upload website to Blob Storage
+  inputs:
+    azureSubscription: 'Azure-Subscription'
+    scriptType: pscore
+    scriptLocation: inlineScript
+    inlineScript: |
+      az storage blob upload-batch -d '$web' -s frontend/build --account-name $(StorageAccount)
