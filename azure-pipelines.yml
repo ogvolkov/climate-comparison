@@ -8,6 +8,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   StorageAccount: 'climatev2test'
+  AppServiceName: 'climate-comparison-beta'
 
 steps:
 - bash: |
@@ -24,17 +25,21 @@ steps:
 - script: dotnet publish --output $(Build.ArtifactStagingDirectory)/backend ./backend/ClimateComparison.sln
   displayName: 'dotnet publish'
 
-- publish: $(Build.ArtifactStagingDirectory)/backend
-  artifact: backend
-  displayName: 'publish backend'
-
 - script: npm install
   workingDirectory: frontend
   displayName: 'npm install'
-  
+
 - script: npm run build
   workingDirectory: frontend
   displayName: 'npm build'
+
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy Azure App Service'
+  inputs:
+    azureSubscription: 'Azure-Subscription'
+    appType: 'webAppLinux'
+    WebAppName: '$(AppServiceName)'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/backend'
 
 - task: AzureCLI@2
   displayName: Upload website to Blob Storage
