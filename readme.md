@@ -2,7 +2,7 @@
 
 Climate comparison is a project to compare climates of two chosen places on Earth.
 
-You can see the online demo [here](https://climate-front.azurewebsites.net/).
+You can see the online demo [here](https://climatecomparisonprod.z6.web.core.windows.net/).
 
 It uses the temperature data from [Berkeley Earth](http://berkeleyearth.org), the precipitation data from [Climatic Research Unit, University of East Anglia](http://www.cru.uea.ac.uk/), and the cities data from [GeoNames](http://download.geonames.org/export/dump/).
 
