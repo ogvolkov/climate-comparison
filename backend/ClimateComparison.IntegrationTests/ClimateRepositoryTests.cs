@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using ClimateComparison.DataAccess.Infra;
 using ClimateComparison.DataAccess.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -26,13 +27,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void RetrievesAverageHighs()
+        public async Task RetrievesAverageHighs()
         {
             // arrange
             int placeId = 105989;
 
             // act
-            var temperature = _climateRepository.GetTemperature(placeId);
+            var temperature = await _climateRepository.GetTemperature(placeId);
 
             // assert
             Assert.That(temperature.MonthlyAverageHighs, Is.Not.Null);
@@ -45,7 +46,7 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void AverageHighsTakeReasonableTime()
+        public async Task AverageHighsTakeReasonableTime()
         {
             // arrange
             int placeId = 66728;
@@ -53,7 +54,7 @@ namespace ClimateComparison.IntegrationTests
 
             // act
             stopwatch.Start();
-            _climateRepository.GetTemperature(placeId);
+            await _climateRepository.GetTemperature(placeId);
             var elapsedMs = stopwatch.ElapsedMilliseconds;
 
             // assert
@@ -61,13 +62,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void RetrievesPrecipitation()
+        public async Task RetrievesPrecipitation()
         {
             // arrange
             int placeId = 105989;
 
             // act
-            var precipitation = _climateRepository.GetPrecipitation(placeId);
+            var precipitation = await _climateRepository.GetPrecipitation(placeId);
 
             // assert
             Assert.That(precipitation.MonthlyAverages, Is.Not.Null);
@@ -80,7 +81,7 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void PrecipitationTakesReasonableTime()
+        public async Task PrecipitationTakesReasonableTime()
         {
             // arrange
             int placeId = 66728;
@@ -88,7 +89,7 @@ namespace ClimateComparison.IntegrationTests
 
             // act
             stopwatch.Start();
-            _climateRepository.GetPrecipitation(placeId);
+            await _climateRepository.GetPrecipitation(placeId);
             var elapsedMs = stopwatch.ElapsedMilliseconds;
 
             // assert
