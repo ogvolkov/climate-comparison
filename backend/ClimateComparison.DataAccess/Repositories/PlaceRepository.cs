@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ClimateComparison.DataAccess.DTO;
 using ClimateComparison.DataAccess.Entities;
 using ClimateComparison.DataAccess.Infra;
@@ -17,7 +18,7 @@ namespace ClimateComparison.DataAccess.Repositories
             _cloudTableClientProvider = cloudTableClientProvider ?? throw new ArgumentNullException(nameof(cloudTableClientProvider));
         }
 
-        public IEnumerable<Place> Find(string searchText, int maxCount)
+        public async Task<IReadOnlyCollection<Place>> Find(string searchText, int maxCount)
         {
             if (searchText == null)
             {
@@ -51,7 +52,7 @@ namespace ClimateComparison.DataAccess.Repositories
             query.Where(filter);
             query.TakeCount = 1000;
 
-            TableQuerySegment<PlaceEntity> resultsSegment = placesTable.ExecuteQuerySegmentedAsync(query, null).GetAwaiter().GetResult();
+            TableQuerySegment<PlaceEntity> resultsSegment = await placesTable.ExecuteQuerySegmentedAsync(query, null);
 
             var results = resultsSegment
                 .GroupBy(p => new

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using ClimateComparison.DataAccess.DTO;
 using ClimateComparison.DataAccess.Entities;
 using ClimateComparison.DataAccess.Infra;
@@ -16,14 +17,14 @@ namespace ClimateComparison.DataAccess.Repositories
             _cloudTableClientProvider = cloudTableClientProvider ?? throw new ArgumentNullException(nameof(cloudTableClientProvider));
         }
 
-        public Temperature GetTemperature(int placeId)
+        public async Task<Temperature> GetTemperature(int placeId)
         {
             var avgHighTable = _cloudTableClientProvider.Get().GetTableReference("avgHigh");
 
             var query = new TableQuery<AverageHighEntity>()
                 .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, placeId.ToString()));
 
-            TableQuerySegment<AverageHighEntity> resultsSegment = avgHighTable.ExecuteQuerySegmentedAsync(query, null).GetAwaiter().GetResult();
+            TableQuerySegment<AverageHighEntity> resultsSegment = await avgHighTable.ExecuteQuerySegmentedAsync(query, null);
 
             double[] averageHighs = resultsSegment.OrderBy(it => Convert.ToInt32(it.RowKey))
                 .Select(it => it.AverageHigh).ToArray();
@@ -34,14 +35,14 @@ namespace ClimateComparison.DataAccess.Repositories
             };
         }
 
-        public Precipitation GetPrecipitation(int placeId)
+        public async Task<Precipitation> GetPrecipitation(int placeId)
         {
             var precipitationTable = _cloudTableClientProvider.Get().GetTableReference("precipitation");
 
             var query = new TableQuery<PrecipitationEntity>()
                 .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, placeId.ToString()));
 
-            TableQuerySegment<PrecipitationEntity> resultsSegment = precipitationTable.ExecuteQuerySegmentedAsync(query, null).GetAwaiter().GetResult();
+            TableQuerySegment<PrecipitationEntity> resultsSegment = await precipitationTable.ExecuteQuerySegmentedAsync(query, null);
 
             double[] averages = resultsSegment.OrderBy(it => Convert.ToInt32(it.RowKey))
                 .Select(it => it.Average).ToArray();

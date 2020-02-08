@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using ClimateComparison.DataAccess.Infra;
 using ClimateComparison.DataAccess.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -24,13 +25,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void FindsPlaceByNameStart()
+        public async Task FindsPlaceByNameStart()
         {
             // arrange
             string searchText = "Utr";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Not.Empty);
@@ -38,13 +39,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void FindsPlaceByAlternativeNameStart()
+        public async Task FindsPlaceByAlternativeNameStart()
         {
             // arrange
             string searchText = "Moskva";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Not.Empty);
@@ -52,13 +53,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void PerformsCaseInsensitiveSearch()
+        public async Task PerformsCaseInsensitiveSearch()
         {
             // arrange
             string searchText = "cHicAgO";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Not.Empty);
@@ -66,13 +67,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void SelectsMostRelevantPlace()
+        public async Task SelectsMostRelevantPlace()
         {
             // arrange
             string searchText = "London";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Not.Empty);
@@ -81,13 +82,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void WorksWithLatinExtraCharacters()
+        public async Task WorksWithLatinExtraCharacters()
         {
             // arrange
             string searchText = "Mün";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Not.Empty);
@@ -96,13 +97,13 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void WorksWithCyrillic()
+        public async Task WorksWithCyrillic()
         {
             // arrange
             string searchText = "Моск";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Not.Empty);
@@ -111,14 +112,14 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void SelectsNoMoreThanMaximum()
+        public async Task SelectsNoMoreThanMaximum()
         {
             // arrange
             string searchText = "San";
             int maxResults = 5;
 
             // act
-            var results = _placeRepository.Find(searchText, maxResults).ToList();
+            var results = await _placeRepository.Find(searchText, maxResults);
 
             // assert
             Assume.That(results, Is.Not.Empty);
@@ -126,20 +127,20 @@ namespace ClimateComparison.IntegrationTests
         }
 
         [Test]
-        public void ReturnsEmptyResultIfNothingWasFound()
+        public async Task ReturnsEmptyResultIfNothingWasFound()
         {
             // arrange
             string searchText = "spkt";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             Assert.That(results, Is.Empty);
         }
 
         [Test]
-        public void PerformanceIsAcceptable()
+        public async Task PerformanceIsAcceptable()
         {
             // arrange
             string searchText = "San";
@@ -147,7 +148,7 @@ namespace ClimateComparison.IntegrationTests
 
             // act
             stopwatch.Start();
-            _placeRepository.Find(searchText, 10).ToList();
+            await _placeRepository.Find(searchText, 10);
             var elapsedMs = stopwatch.ElapsedMilliseconds;
 
             // assert
@@ -160,17 +161,17 @@ namespace ClimateComparison.IntegrationTests
         public void ThrowsIfSearchStringIsTooShort(string searchText)
         {
             // act + assert
-            Assert.Throws<ArgumentException>(() => _placeRepository.Find(searchText, 10));
+            Assert.ThrowsAsync<ArgumentException>(async () => await _placeRepository.Find(searchText, 10));
         }
 
         [Test]
-        public void DoesNotReturnFullDuplicates()
+        public async Task DoesNotReturnFullDuplicates()
         {
             // arrange
             string searchText = "Amers";
 
             // act
-            var results = _placeRepository.Find(searchText, 10).ToList();
+            var results = await _placeRepository.Find(searchText, 10);
 
             // assert
             var duplicates = results.GroupBy(it => new { it.Id }).Where(g => g.Count() > 1).Select(g => g.Key);

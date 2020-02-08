@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ClimateComparison.DataAccess.DTO;
 using ClimateComparison.DataAccess.Repositories;
@@ -17,9 +18,9 @@ namespace ClimateComparison.Controllers
 
         // GET api/places?search
         [HttpGet]
-        public IEnumerable<Place> Get(string search)
+        public async Task<IReadOnlyCollection<Place>> Get(string search)
         {
-            return _placeRepository.Find(search, 15);
+            return await _placeRepository.Find(search, 15);
         }
     }
 }

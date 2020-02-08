@@ -1,4 +1,5 @@
-﻿using ClimateComparison.DataAccess.DTO;
+﻿using System.Threading.Tasks;
+using ClimateComparison.DataAccess.DTO;
 using ClimateComparison.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,15 +16,15 @@ namespace ClimateComparison.Controllers
         }
 
         [HttpGet("temperature/{placeId}")]
-        public Temperature Temperature(int placeId)
+        public async Task<Temperature> Temperature(int placeId)
         {
-            return _climateRepository.GetTemperature(placeId);
+            return await _climateRepository.GetTemperature(placeId);
         }
 
         [HttpGet("precipitation/{placeId}")]
-        public Precipitation Precipitation(int placeId)
+        public async Task<Precipitation> Precipitation(int placeId)
         {
-            return _climateRepository.GetPrecipitation(placeId);
+            return await _climateRepository.GetPrecipitation(placeId);
         }
     }
 }
