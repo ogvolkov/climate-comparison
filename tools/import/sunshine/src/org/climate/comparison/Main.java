@@ -1,21 +1,25 @@
 package org.climate.comparison;
 
-import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
-import com.microsoft.azure.storage.table.*;
+import ucar.ma2.InvalidRangeException;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 
 public class Main {
-    public static void main(String[] args) throws URISyntaxException, InvalidKeyException, StorageException {
+    public static void main(String[] args) throws URISyntaxException, InvalidKeyException, StorageException, IOException, InvalidRangeException {
         String storageConnectionString = System.getenv("CLIMATE_COMPARISON_STORAGE_ACCOUNT");
-        CloudStorageAccount account = CloudStorageAccount.parse(storageConnectionString);
-        CloudTableClient tableClient = account.createCloudTableClient();
-        CloudTable table = tableClient.getTableReference("radiation");
+        TableStorageService tableStorage = new TableStorageService(storageConnectionString, "radiation");
 
-        var radiationRecord = new org.climate.comparison.Radiation(105989,7, 19545431.4);
-        var replaceOperation = TableOperation.insertOrReplace(radiationRecord);
-        table.execute(replaceOperation);
+        try (Cdf cdf = new Cdf(args[0])) {
+            int placeId = 105989;
+            double[] result = cdf.get(380, 55);
+
+            for (int i = 0; i < 12; i++) {
+                tableStorage.save(placeId, i + 1, result[i]);
+            }
+            System.out.println("Imported " + placeId);
+        }
     }
 }
