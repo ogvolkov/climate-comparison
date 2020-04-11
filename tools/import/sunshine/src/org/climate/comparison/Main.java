@@ -14,7 +14,7 @@ public class Main {
 
         try (Cdf cdf = new Cdf(args[0])) {
             int placeId = 105989;
-            double[] result = cdf.get(380, 55);
+            double[] result = cdf.get(52.15, 5.38);
 
             for (int i = 0; i < 12; i++) {
                 tableStorage.save(placeId, i + 1, result[i]);

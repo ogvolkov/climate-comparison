@@ -10,21 +10,34 @@ import java.io.IOException;
 public class Cdf implements AutoCloseable {
     private NetcdfFile ncfile;
     private Variable radiation;
+
+    private long longitudeGranularity;
+    private long latitudeGranularity;
+
     private double scaleFactor;
     private double offset;
 
     public Cdf(String filename) throws IOException {
         ncfile = NetcdfFile.open(filename);
 
+        Variable longitude = ncfile.findVariable("longitude");
+        longitudeGranularity = longitude.getSize();
+
+        Variable latitude = ncfile.findVariable("latitude");
+        latitudeGranularity = latitude.getSize();
+
         radiation = ncfile.findVariable("ssrd");
         scaleFactor = radiation.findAttribute("scale_factor").getNumericValue().doubleValue();
         offset = radiation.findAttribute("add_offset").getNumericValue().doubleValue();
     }
 
-    public double[] get(int a, int b) throws IOException, InvalidRangeException {
+    public double[] get(double lat, double lon) throws IOException, InvalidRangeException {
         double[] result = new double[12];
 
-        int[] origin = new int [] { 0, a, b };
+        int r = 1 + (int)Math.round((90 - lat) * latitudeGranularity / 180);
+        int c = 1 + (int)Math.round(lon * longitudeGranularity / 360);
+
+        int[] origin = new int [] { 0, r, c };
         int[] size = new int [] { 12, 1, 1 };
 
         ArrayShort.D1 data = (ArrayShort.D1)radiation.read(origin, size).reduce();
