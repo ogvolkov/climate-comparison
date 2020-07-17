@@ -23,9 +23,12 @@ public class Function {
         String placesFileName = System.getenv("PLACES_FILE_NAME");
         String storageConnectionString = System.getenv("CLIMATE_COMPARISON_STORAGE_ACCOUNT");
 
+        context.getLogger().info("go");
         CloudStorageAccount account = CloudStorageAccount.parse(storageConnectionString);
         CloudTableClient tableClient = account.createCloudTableClient();
         CloudTable radiationTable = tableClient.getTableReference("radiation");
+
+        context.getLogger().info("before try");
 
         try (Cdf cdf = new Cdf(cdfFileName)) {
             Importer importer = new Importer(cdf, radiationTable);

@@ -8,6 +8,8 @@ import ucar.ma2.InvalidRangeException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 public class Importer {
     private Cdf cdf;
@@ -20,7 +22,8 @@ public class Importer {
     }
 
     public void run(String placesFileName, int from, int to) throws IOException, InvalidRangeException, StorageException {
-        try (BufferedReader placesFile = new BufferedReader(new FileReader(placesFileName))) {
+        URL url = new URL(placesFileName);
+        try (BufferedReader placesFile = new BufferedReader(new InputStreamReader(url.openStream()))) {
             String line;
             while ((line = placesFile.readLine()) != null) {
                 String[] fields = line.split("\\s+");
