@@ -16,7 +16,7 @@ import java.security.InvalidKeyException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Main {
-    public static void main(String[] args) throws URISyntaxException, IOException, InvalidKeyException, InvalidRangeException, StorageException {
+    public static void main(String[] args) throws URISyntaxException, IOException, InvalidKeyException, InvalidRangeException, StorageException, InterruptedException {
         String cdfFileName = args[0];
         String placesFileName = args[1];
         String storageConnectionString = System.getenv("CLIMATE_COMPARISON_STORAGE_ACCOUNT");
@@ -35,23 +35,28 @@ public class Main {
             Importer importer = new Importer(cdf, radiationTable);
 
             for (;;) {
-                CloudQueueMessage message = workQueue.retrieveMessage();
-                if (message ==  null) break;
-
-                String content = message.getMessageContentAsString();
-                System.out.println("Got message " + content);
-
                 try {
-                    ImportMessage importMessage = mapper.readValue(content, ImportMessage.class);
-                    importer.run(placesFileName, importMessage.from, importMessage.to);
+                    CloudQueueMessage message = workQueue.retrieveMessage();
+                    if (message == null) {
+                        Thread.sleep(2000);
+                        continue;
+                    }
+
+                    String content = message.getMessageContentAsString();
+                    System.out.println("Got message " + content);
+
+                    try {
+                        ImportMessage importMessage = mapper.readValue(content, ImportMessage.class);
+                        importer.run(placesFileName, importMessage.from, importMessage.to);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                        deadLetterQueue.addMessage(new CloudQueueMessage(content));
+                    }
+                    workQueue.deleteMessage(message);
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                    deadLetterQueue.addMessage(new CloudQueueMessage(content));
                 }
-                workQueue.deleteMessage(message);
             }
         }
-
-        System.out.println("no more messages in the queue");
     }
 }
