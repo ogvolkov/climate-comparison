@@ -32,6 +32,8 @@ public class Main {
         try (Cdf cdf = new Cdf(cdfFileName)) {
             Importer importer = new Importer(cdf, radiationTable);
 
+            System.out.println("Started, waiting for messages...");
+
             for (;;) {
                 try {
                     CloudQueueMessage message = workQueue.retrieveMessage();
