@@ -1,5 +1,3 @@
-package org.climate.comparison;
-
 import com.microsoft.azure.storage.table.TableServiceEntity;
 
 public class RadiationEntity extends TableServiceEntity {

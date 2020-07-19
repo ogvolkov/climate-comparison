@@ -1,5 +1,3 @@
-package org.climate.comparison;
-
 import ucar.ma2.ArrayShort;
 import ucar.ma2.InvalidRangeException;
 import ucar.nc2.NetcdfFile;

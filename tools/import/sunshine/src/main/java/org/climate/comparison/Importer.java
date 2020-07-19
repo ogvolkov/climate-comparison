@@ -1,5 +1,3 @@
-package org.climate.comparison;
-
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.table.CloudTable;
 import com.microsoft.azure.storage.table.TableOperation;
@@ -44,7 +42,7 @@ public class Importer {
     }
 
     private void save(int placeId, int month, double radiation) throws StorageException {
-        var radiationRecord = new org.climate.comparison.RadiationEntity(placeId, month, radiation);
+        var radiationRecord = new RadiationEntity(placeId, month, radiation);
         var replaceOperation = TableOperation.insertOrReplace(radiationRecord);
         table.execute(replaceOperation);
     }
