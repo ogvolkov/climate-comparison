@@ -6,20 +6,30 @@ import ClimateRow from './ClimateRow';
 class App extends Component {
   constructor() {
     super();
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const p1 = urlParams.get('p1');
+    const p2 = urlParams.get('p2');
 
-    this.state = { climates: [this.newClimate(), this.newClimate()] };
+    this.state = { climates: [this.newClimate(p1), this.newClimate(p2)] };
   }
 
-  newClimate() {
-    return new Climate(() => this.onClimateChanged());
+  newClimate(placeId) {
+    return new Climate(placeId, () => this.onClimateChanged());
   }
 
-  onClimateChanged() {
+  onClimateChanged(paramId) {
     this.setState(this.state);
   }
 
   onPlaceSelected(atIndex, place) {
     this.state.climates[atIndex].setPlace(place);
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramName = atIndex === 0 ? 'p1': 'p2';
+    urlParams.set(paramName, place.id);
+    const newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+    // TODO push/pop
+    window.history.replaceState({path:newUrl},'',newUrl);
   };
 
   render() {

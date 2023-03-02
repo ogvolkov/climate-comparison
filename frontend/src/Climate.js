@@ -2,10 +2,14 @@ import ClimateService from './Api/ClimateService';
 import compareClimates from './compareClimates';
 
 class Climate {
-  constructor(onChange) {
+  constructor(placeId, onChange) {
     this.temperature = null;
     this.precipitation = null;
     this.onChange = onChange;
+    if (placeId) {
+      this.place = {id: placeId, name: ''};
+      this.load();
+    }
   }
 
   setPlace(place) {
@@ -18,7 +22,7 @@ class Climate {
   }
 
   load() {
-    ClimateService.getTemperature(this.place.id)
+    ClimateService.getTemperature(this.place.id)      
       .then(response => {
           if (response.ok) {
               response.json().then(

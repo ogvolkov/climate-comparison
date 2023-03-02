@@ -20,6 +20,8 @@ class PlacePicker extends Component {
     onChange = (event, { newValue }) => this.setState({ value: newValue });
 
     fetchSuggestions = (value) => {
+        if (value.length < 3) return;
+        
         const requestId = ++this.lastRequestId;
 
         PlaceService.findPlaces(value)
