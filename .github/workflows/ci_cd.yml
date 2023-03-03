@@ -18,8 +18,8 @@ jobs:
         id: configure-environment
         uses: actions/github-script@v6
         with: 
-          script: 
-            if (context.ref == 'refs/heads/main') {
+          script: |
+            if (context.ref === 'refs/heads/main') {
               core.setOutput('REACT_APP_API_URL', '${{ vars.PROD_API_URL }}')
               core.setOutput('deployment_target', 'prod')
             } else {
