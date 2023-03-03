@@ -57,7 +57,9 @@ jobs:
     needs: [configure-environment]
     defaults:
       run:
-        working-directory: frontend
+        working-directory: 
+    env:
+      REACT_APP_API_URL: ${{ needs.configure-environment.outputs.REACT_APP_API_URL }}
     steps:
       - uses: actions/checkout@v3
       - name: Setup Node.js
@@ -78,6 +80,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend, configure-environment]
+    environment: 
+      name: ${{ needs.configure-environment.outputs.deployment_target }}
     steps:
       - name: Download backend
         uses: actions/download-artifact@v3
