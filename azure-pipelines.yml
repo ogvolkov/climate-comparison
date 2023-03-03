@@ -13,12 +13,14 @@ steps:
     echo "##vso[task.setvariable variable=REACT_APP_API_URL]${PROD_API_URL}"
     echo "##vso[task.setvariable variable=APP_SERVICE_NAME]${PROD_APP_SERVICE_NAME}"
     echo "##vso[task.setvariable variable=WEBSITE_STORAGE_ACCOUNT]${PROD_WEBSITE_STORAGE_ACCOUNT}"
+    echo "##vso[task.setvariable variable=WEBSITE_STORAGE_ACCOUNT_KEY]${PROD_WEBSITE_STORAGE_ACCOUNT_KEY}"
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
 
 - bash: |
     echo "##vso[task.setvariable variable=REACT_APP_API_URL]${BETA_API_URL}"
     echo "##vso[task.setvariable variable=APP_SERVICE_NAME]${BETA_APP_SERVICE_NAME}"
     echo "##vso[task.setvariable variable=WEBSITE_STORAGE_ACCOUNT]${BETA_WEBSITE_STORAGE_ACCOUNT}"
+    echo "##vso[task.setvariable variable=WEBSITE_STORAGE_ACCOUNT_KEY]${BETA_WEBSITE_STORAGE_ACCOUNT_KEY}"
   condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
   
 - script: dotnet build --configuration $(buildConfiguration) ./backend/ClimateComparison.sln
@@ -50,4 +52,4 @@ steps:
     scriptType: pscore
     scriptLocation: inlineScript
     inlineScript: |
-      az storage blob upload-batch -d '$web' -s frontend/build --account-name $(WEBSITE_STORAGE_ACCOUNT)
+      az storage blob upload-batch -d '$web' -s frontend/build --account-name $(WEBSITE_STORAGE_ACCOUNT) --account-key $(WEBSITE_STORAGE_ACCOUNT_KEY)
