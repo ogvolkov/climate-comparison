@@ -26,6 +26,7 @@ jobs:
               core.setOutput('REACT_APP_API_URL', '${{ vars.BETA_API_URL }}')
               core.setOutput('deployment_target', 'beta')
             }
+
   build-backend:
     name: Build backend
     runs-on: ubuntu-latest
@@ -96,3 +97,10 @@ jobs:
       - name: Pring plans
         run: | 
           echo 'going to deploy to ${{ vars.APP_SERVICE_NAME}}'
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy Frontent
+        run: |
+          az storage blob upload-batch -d '$web' -s frontend_output --account-name ${{ vars.WEBSITE_STORAGE_ACCOUNT }} --account-key ${{ secrets.WEBSITE_STORAGE_ACCOUNT_KEY }} --overwrite true
