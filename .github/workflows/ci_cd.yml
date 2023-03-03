@@ -57,7 +57,7 @@ jobs:
     needs: [configure-environment]
     defaults:
       run:
-        working-directory: 
+        working-directory: frontend
     env:
       REACT_APP_API_URL: ${{ needs.configure-environment.outputs.REACT_APP_API_URL }}
     steps:
