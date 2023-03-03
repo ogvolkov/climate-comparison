@@ -20,6 +20,8 @@ class PlacePicker extends Component {
     onChange = (event, { newValue }) => this.setState({ value: newValue });
 
     fetchSuggestions = (value) => {
+        if (value.length < 3) return;
+
         const requestId = ++this.lastRequestId;
 
         PlaceService.findPlaces(value)
@@ -48,6 +50,19 @@ class PlacePicker extends Component {
             <span className='country-name'>{suggestion.country}</span>
         </div>
     );    
+
+    componentDidMount() {
+        if (this.props.initialPlaceId) {
+            PlaceService.get(this.props.initialPlaceId).then(response => {
+                if (response.ok) {                    
+                    response.json().then(place => {
+                        const placeString = this.getSuggestionValue(place);
+                        this.setState({value: placeString});
+                    });
+                }
+            });
+        }
+    }
 
     render() {
         const { value, suggestions } = this.state;

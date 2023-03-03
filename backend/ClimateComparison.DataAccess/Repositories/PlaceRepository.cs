@@ -73,5 +73,26 @@ namespace ClimateComparison.DataAccess.Repositories
                 Country = it.CountryCode
             }).ToList();
         }
+
+        public async Task<Place> Get(int placeId)
+        {
+            var placesTable = _cloudTableClientProvider.Get().GetTableReference("places");
+            
+            var query = new TableQuery<PlaceEntity>();
+            // TODO likely full scan :-/
+            query.Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, placeId.ToString()));
+            query.TakeCount = 1;
+
+            TableQuerySegment<PlaceEntity> resultsSegment = await placesTable.ExecuteQuerySegmentedAsync(query, null);
+
+            var placeEntity = resultsSegment.First();
+
+            return new Place
+            {
+                Id = int.Parse(placeEntity.Id),
+                Name = placeEntity.Name,
+                Country = placeEntity.CountryCode
+            };
+        }
     }
 }
