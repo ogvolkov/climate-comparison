@@ -82,6 +82,7 @@ jobs:
     needs: [build-backend, build-frontend, configure-environment]
     environment: 
       name: ${{ needs.configure-environment.outputs.deployment_target }}
+      url: ${{ vars.SITE_URL }}
     steps:
       - name: Download backend
         uses: actions/download-artifact@v3
