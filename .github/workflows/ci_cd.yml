@@ -8,9 +8,11 @@ on:
 
 jobs:
   build-backend:
+    name: Build backend
     runs-on: ubuntu-latest
     env:
       buildConfiguration: 'Release'
+    workdir: ${{ github.workspace }}/backend
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET Core
@@ -18,9 +20,9 @@ jobs:
         with:
           dotnet-version: '2.1.x'
       - name: 'dotnet build'
-        run: dotnet build --configuration $buildConfiguration ./backend/ClimateComparison.sln
+        run: dotnet build --configuration $buildConfiguration 
       - name: 'dotnet publish'
-        run: dotnet publish --output ${{ github.workspace }}/backend_output ./backend/ClimateComparison.sln
+        run: dotnet publish --output ${{ github.workspace }}/backend_output 
       - name: Upload backend
         uses: actions/upload-artifact@v3
         with:
