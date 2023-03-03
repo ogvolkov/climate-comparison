@@ -104,3 +104,9 @@ jobs:
       - name: Deploy Frontent
         run: |
           az storage blob upload-batch -d '$web' -s frontend_output --account-name ${{ vars.WEBSITE_STORAGE_ACCOUNT }} --account-key ${{ secrets.WEBSITE_STORAGE_ACCOUNT_KEY }} --overwrite true
+      - name: Deploy Backend
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: ${{ vars.APP_SERVICE_NAME }}
+          package: backend_output
+
