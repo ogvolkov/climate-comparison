@@ -93,3 +93,6 @@ jobs:
         with:
           name: frontend
           path: frontend_output
+      - name: Pring plans
+        run: | 
+          echo 'going to deploy to ${{ vars.APP_SERVICE_NAME}}'
