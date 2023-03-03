@@ -12,7 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       buildConfiguration: 'Release'
-    workdir: ${{ github.workspace }}/backend
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET Core
@@ -28,4 +30,6 @@ jobs:
         with:
           name: backend
           path: ${{ github.workspace }}/backend_output
+
+
   
