@@ -18,7 +18,7 @@ class App extends Component {
     return new Climate(placeId, () => this.onClimateChanged());
   }
 
-  onClimateChanged(paramId) {
+  onClimateChanged() {
     this.setState(this.state);
   }
 
@@ -40,7 +40,7 @@ class App extends Component {
         {
           this.state.climates.map((data, index) =>
             <div key = {index} className='climate-container'>
-              <PlacePicker onPlaceSelected = { place => this.onPlaceSelected(index, place) } caption = {`Place ${index+1}`}/>
+              <PlacePicker initialPlaceId = {data.initialPlaceId} onPlaceSelected = { place => this.onPlaceSelected(index, place) } caption = {`Place ${index+1}`}/>
               { data.hasData() && <ClimateRow climate={data}/> }
             </div>
           )

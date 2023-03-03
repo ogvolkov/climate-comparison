@@ -16,11 +16,16 @@ namespace ClimateComparison.Controllers
             _placeRepository = citiesRepository ?? throw new System.ArgumentNullException(nameof(citiesRepository));
         }
 
-        // GET api/places?search
         [HttpGet]
         public async Task<IReadOnlyCollection<Place>> Get(string search)
         {
             return await _placeRepository.Find(search, 15);
+        }
+
+        [HttpGet("{placeId}")]
+        public async Task<Place> Details(int placeId)
+        {
+            return await _placeRepository.Get(placeId);
         }
     }
 }
