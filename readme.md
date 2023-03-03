@@ -1,5 +1,7 @@
 # Climate comparison
 
+[![Build and Deploy](https://github.com/ogvolkov/climate-comparison/actions/workflows/ci_cd.yml/badge.svg)](https://github.com/ogvolkov/climate-comparison/actions/workflows/ci_cd.yml)
+
 Climate comparison is a project to compare climates of two chosen places on Earth.
 
 You can see the online demo [here](https://climatecomparisonprod.z6.web.core.windows.net/).
