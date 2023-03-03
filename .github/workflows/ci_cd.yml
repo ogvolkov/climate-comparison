@@ -32,4 +32,24 @@ jobs:
           path: ${{ github.workspace }}/backend_output
 
 
-  
+  build-frontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - name: 'npm install'
+        run: npm install
+      - name: 'npm build'
+        run: npm run build
+      - name: Upload frontend
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend
+          path: ${{ github.workspace }}/frontend/build
