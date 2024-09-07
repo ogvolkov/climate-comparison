@@ -1,10 +1,10 @@
 ﻿using ClimateComparison.DataAccess.Infra;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using ClimateComparison.DataAccess.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace ClimateComparison
 {
@@ -20,8 +20,6 @@ namespace ClimateComparison
         {
             services.AddApplicationInsightsTelemetry();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddSingleton<PlaceRepository>();
             services.AddSingleton<ClimateRepository>();
             services.AddSingleton<CloudTableClientProvider>();
@@ -30,7 +28,7 @@ namespace ClimateComparison
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
