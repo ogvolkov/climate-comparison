@@ -39,7 +39,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x.x'
+          dotnet-version: '10.0.x'
       - name: 'dotnet build'
         run: dotnet build --configuration $buildConfiguration 
       - name: 'dotnet publish'
