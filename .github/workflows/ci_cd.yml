@@ -39,7 +39,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x.x'
+          dotnet-version: '10.0.x'
       - name: 'dotnet build'
         run: dotnet build --configuration $buildConfiguration 
       - name: 'dotnet publish'
@@ -65,7 +65,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '24.x'
       - name: 'npm install'
         run: npm install
       - name: 'npm build'
@@ -106,4 +106,12 @@ jobs:
         with:
           app-name: ${{ vars.APP_SERVICE_NAME }}
           package: backend_output
+      - name: Set backend runtime stack
+        run: |
+          id=$(az webapp list --query "[?name=='${{ vars.APP_SERVICE_NAME }}'].id | [0]" -o tsv)
+          if [ -z "$id" ]; then
+            echo "::error::App Service '${{ vars.APP_SERVICE_NAME }}' not found"
+            exit 1
+          fi
+          az webapp config set --ids "$id" --linux-fx-version 'DOTNETCORE|10.0'
 

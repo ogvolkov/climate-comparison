@@ -161,7 +161,10 @@ namespace ClimateComparison.IntegrationTests
         public void ThrowsIfSearchStringIsTooShort(string searchText)
         {
             // act + assert
-            Assert.ThrowsAsync<ArgumentException>(async () => await _placeRepository.Find(searchText, 10));
+            Assert.ThatAsync(
+                async () => await _placeRepository.Find(searchText, 10),
+                Throws.TypeOf<ArgumentException>()
+            );
         }
 
         [Test]
